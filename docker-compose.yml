@@ -503,14 +503,8 @@ services:
         - "3478:3478/udp"
         - "5349:5349"
         - "5349:5349/udp"
-        environment:
-        - TURN_CREDENTIALS=${TURN_CREDENTIALS}
-        - TURN_HOST=${TURN_HOST}
-        - TURN_PORT=${TURN_PORT}
-        - TURN_TRANSPORT=${TURN_TRANSPORT}
-        - TURNS_HOST=${TURNS_HOST}
-        - TURNS_PORT=${TURNS_PORT}
-        - TURN_TTL=${TURN_TTL}
+        volumes:
+        - ${pwd}/coturn.conf:/etc/coturn/turnserver.conf
         depends_on:
             - prosody
         networks:
