@@ -494,6 +494,27 @@ services:
             - prosody
         networks:
             meet.jitsi:
+    
+    coturn:
+        image: instrumentisto/coturn
+        restart: always
+        ports:
+        - "3478:3478"
+        - "3478:3478/udp"
+        - "5349:5349"
+        - "5349:5349/udp"
+        environment:
+        - TURN_CREDENTIALS=${TURN_CREDENTIALS}
+        - TURN_HOST=${TURN_HOST}
+        - TURN_PORT=${TURN_PORT}
+        - TURN_TRANSPORT=${TURN_TRANSPORT}
+        - TURNS_HOST=${TURNS_HOST}
+        - TURNS_PORT=${TURNS_PORT}
+        - TURN_TTL=${TURN_TTL}
+        depends_on:
+            - prosody
+        networks:
+            meet.jitsi:
 
 # Custom network so all services can communicate using a FQDN
 networks:
