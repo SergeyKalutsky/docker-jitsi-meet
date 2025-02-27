@@ -505,10 +505,19 @@ services:
         - "5349:5349/udp"
         volumes:
         - ${pwd}/coturn.conf:/etc/coturn/turnserver.conf
+        - ${CONFIG}/coturn:/etc/coturn
         depends_on:
             - prosody
         networks:
             meet.jitsi:
+        environment:
+            - TURN_CREDENTIALS
+            - TURN_HOST
+            - TURN_PORT
+            - TURN_TRANSPORT
+            - TURNS_HOST
+            - TURNS_PORT
+            - TURN_TTL
 
 # Custom network so all services can communicate using a FQDN
 networks:
