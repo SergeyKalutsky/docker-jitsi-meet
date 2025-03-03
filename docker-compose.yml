@@ -528,7 +528,6 @@ services:
         - "5349:5349/udp"
         volumes:
         - ./coturn.conf:/etc/coturn/turnserver.conf
-        - ${CONFIG}/coturn:/etc/coturn
         depends_on:
             - prosody
         networks:
