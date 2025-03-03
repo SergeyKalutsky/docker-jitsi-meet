@@ -1,13 +1,32 @@
 version: '3.5'
 
 services:
+    traefik:
+      image: "traefik:v2.11"
+      container_name: "traefik"
+      command:
+        #- "--log.level=DEBUG"
+        - "--api.insecure=true"
+        - "--providers.docker=true"
+        - "--providers.docker.exposedbydefault=false"
+        - "--entrypoints.websecure.address=:443"
+        - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+        #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+        - "--certificatesresolvers.myresolver.acme.email=skalutsky@gmail.com"
+        - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      ports:
+        - "443:443"
+        - "8080:8080"
+      volumes:
+        - "./letsencrypt:/letsencrypt"
+        - "/var/run/docker.sock:/var/run/docker.sock:ro"
     # Frontend
     web:
         image: jitsi/web:latest
         restart: ${RESTART_POLICY:-unless-stopped}
         ports:
             - '${HTTP_PORT}:80'
-            - '${HTTPS_PORT}:443'
+            # - '${HTTPS_PORT}:443'
         volumes:
             - ${CONFIG}/web:/config:Z
             - ${CONFIG}/web/crontabs:/var/spool/cron/crontabs:Z
@@ -15,6 +34,10 @@ services:
             - ${CONFIG}/web/load-test:/usr/share/jitsi-meet/load-test:Z
         labels:
             service: "jitsi-web"
+            traefik.enable: "true"
+            traefik.http.routers.main.rule: "Host(`video.ominds.online`)"
+            traefik.http.routers.main.entrypoints: "websecure"
+            traefik.http.routers.main.tls.certresolver: "myresolver"
         environment:
             - AMPLITUDE_ID
             - ANALYTICS_SCRIPT_URLS
@@ -504,7 +527,7 @@ services:
         - "5349:5349"
         - "5349:5349/udp"
         volumes:
-        - ${pwd}/coturn.conf:/etc/coturn/turnserver.conf
+        - ./coturn.conf:/etc/coturn/turnserver.conf
         - ${CONFIG}/coturn:/etc/coturn
         depends_on:
             - prosody
