@@ -148,31 +148,6 @@ modules_enabled = {
         {{ end }}
 };
 
-Component "conference.server.video-by.ominds.online" "muc"
-    modules_enabled = {
-        "muc_moderation";
-        "mod_moderator_control";  -- Enable the custom module
-    }
-
-VirtualHost "server.video-by.ominds.online"
-    authentication = "token"
-    app_id = "funcode"
-    app_secret = "very very secret key funcode"
-    allow_empty_token = false
-
-    modules_enabled = {
-        "token_verification";
-    }
-
-    token_verification_module = "token_verification"
-    token_verification_options = {
-        issuers = { "funcode" },
-        audiences = { "funcode" },
-        claims = {
-            sub = "server.video-by.ominds.online"
-        }
-    }
-
 component_ports = { }
 https_ports = { }
 
