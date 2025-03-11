@@ -2,7 +2,7 @@ import jwt
 import datetime
 import time
 
-def generate_jwt_token(username="Сергей", email="john@example.com", room_name="*", 
+def generate_jwt_token(username="Сергей", email="skalutsky@gmail.com", room_name="*", 
                        is_moderator=True, expires_in_hours=24):
     """
     Generate a JWT token for Jitsi Meet with moderator privileges
@@ -25,7 +25,7 @@ def generate_jwt_token(username="Сергей", email="john@example.com", room_n
                 "name": username,
                 "email": email,
                 "id": f"user-{int(time.time())}",  # Generate a unique ID based on timestamp
-                "moderator": is_moderator
+                "moderator": False
             }
         },
         "aud": "funcode",         # Must match JWT_ACCEPTED_AUDIENCES in .env
@@ -43,5 +43,5 @@ def generate_jwt_token(username="Сергей", email="john@example.com", room_n
 if __name__ == "__main__":
     # Generate a token with default values
     token = generate_jwt_token()
-    print("JWT Token for Jitsi Meet:")
+    print("******************************")
     print(token)
