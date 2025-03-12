@@ -2,7 +2,7 @@ import jwt
 import datetime
 import time
 
-def generate_jwt_token(username="Азамат", email="marinf@gmail.com", room_name="*", 
+def generate_jwt_token(username="Сергей", email="marinf@gmail.com", room_name="*", 
                        is_moderator=True, expires_in_hours=24):
     """
     Generate a JWT token for Jitsi Meet with moderator privileges
@@ -32,7 +32,7 @@ def generate_jwt_token(username="Азамат", email="marinf@gmail.com", room_n
         "sub": "server.video-by.ominds.online",
         "room": room_name,
         "exp": expiry,
-        "moderator": False
+        "moderator": True
     }
     
     # Sign token with secret
