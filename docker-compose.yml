@@ -508,8 +508,8 @@ services:
         - "5349:5349/udp"
         volumes:
         - ./coturn.conf:/etc/coturn/turnserver.conf
-        - ${CONFIG}/web/keys/cert.crt:/etc/coturn/server.video-by.ominds.online.crt
-        - ${CONFIG}/web/keys/cert.key:/etc/coturn/server.video-by.ominds.online.key
+        - ${CONFIG}/web/keys/cert.crt:/etc/coturn/video-by.ominds.online.crt
+        - ${CONFIG}/web/keys/cert.key:/etc/coturn/video-by.ominds.online.key
         depends_on:
             - prosody
         networks:
