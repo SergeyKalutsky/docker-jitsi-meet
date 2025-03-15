@@ -23,11 +23,11 @@ def generate_jwt_token(username="Светлана", email="marinf@gmail.com", ro
         "context": {
             "user": {
                 "name": username,
-                "id": f"user-{int(time.time())}",  # Generate a unique ID based on timestamp
+                "id": "teacher-1"  # Generate a unique ID based on timestamp
             }
         },
-        "aud": "https://funcode.dev/",         # Must match JWT_ACCEPTED_AUDIENCES in .env
-        "iss": "https://funcode.dev/",         # Must match JWT_ACCEPTED_ISSUERS in .env
+        "aud": "https://funcode.school/",         # Must match JWT_ACCEPTED_AUDIENCES in .env
+        "iss": "https://funcode.school/",         # Must match JWT_ACCEPTED_ISSUERS in .env
         "sub": "video-by.ominds.online",
         "room": room_name,
         "exp": expiry,
