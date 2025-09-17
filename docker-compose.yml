@@ -508,8 +508,8 @@ services:
         - "49160-49200:49160-49200/udp"      # <-- relay ports (match your min/max)
         volumes:
         - ./coturn.conf:/etc/coturn/turnserver.conf
-        - ${CONFIG}/web/keys/cert.crt:/etc/coturn/video-by.ominds.online.crt
-        - ${CONFIG}/web/keys/cert.key:/etc/coturn/video-by.ominds.online.key
+        - /etc/letsencrypt/live/video-by.ominds.online/fullchain.pem:/etc/coturn/video-by.ominds.online.crt:ro
+        - /etc/letsencrypt/live/video-by.ominds.online/privkey.pem:/etc/coturn/video-by.ominds.online.key:ro
         depends_on:
             - prosody
         networks:
