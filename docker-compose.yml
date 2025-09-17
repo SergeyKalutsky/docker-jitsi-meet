@@ -501,7 +501,11 @@ services:
     coturn:
         image: instrumentisto/coturn
         restart: always
-        network_mode: "host" 
+        ports:
+        - "3478:3478/tcp"
+        - "3478:3478/udp"
+        - "5349:5349/tcp"                    # TURNS is TCP; drop 5349/udp
+        - "49160-49200:49160-49200/udp"      # <-- relay ports (match your min/max)
         volumes:
         - ./coturn.conf:/etc/coturn/turnserver.conf
         - ${CONFIG}/web/keys/cert.crt:/etc/coturn/video-by.ominds.online.crt
