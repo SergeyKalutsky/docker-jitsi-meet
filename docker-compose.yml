@@ -501,11 +501,7 @@ services:
     coturn:
         image: instrumentisto/coturn
         restart: always
-        ports:
-        - "3478:3478"
-        - "3478:3478/udp"
-        - "5349:5349"
-        - "5349:5349/udp"
+        network_mode: "host" 
         volumes:
         - ./coturn.conf:/etc/coturn/turnserver.conf
         - ${CONFIG}/web/keys/cert.crt:/etc/coturn/video-by.ominds.online.crt
