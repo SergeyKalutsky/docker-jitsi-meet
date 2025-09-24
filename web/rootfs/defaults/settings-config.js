@@ -131,6 +131,8 @@ config.enableNoisyMicDetection = {{ $ENABLE_NOISY_MIC_DETECTION }};
 // Peer-to-Peer options.
 //
 config.p2p.iceTransportPolicy = 'relay'
+config.webrtcIceUdpDisable = false;
+config.webrtcIceTcpDisable = false;
 
 config.p2p = {
     enabled: {{ $ENABLE_P2P }},
