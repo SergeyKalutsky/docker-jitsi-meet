@@ -508,8 +508,8 @@ services:
         - "49160-49200:49160-49200/udp"      # <-- relay ports (match your min/max)
         volumes:
         - ./coturn.conf:/etc/coturn/turnserver.conf
-        - /etc/letsencrypt/live/vs02.funcodeai.by/fullchain.pem:/etc/coturn/vs02.funcodeai.by.crt:ro
-        - /etc/letsencrypt/live/vs02.funcodeai.by/privkey.pem:/etc/coturn/vs02.funcodeai.by.key:ro
+        - /etc/letsencrypt/live/vs03.funcodeai.by/fullchain.pem:/etc/coturn/vs03.funcodeai.by.crt:ro
+        - /etc/letsencrypt/live/vs03.funcodeai.by/privkey.pem:/etc/coturn/vs03.funcodeai.by.key:ro
         depends_on:
             - prosody
         networks:
