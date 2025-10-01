@@ -28,7 +28,7 @@ def generate_jwt_token(username="Светлана", email="marinf@gmail.com", ro
         },
         "aud": "https://funcode.school/",         # Must match JWT_ACCEPTED_AUDIENCES in .env
         "iss": "https://funcode.school/",         # Must match JWT_ACCEPTED_ISSUERS in .env
-        "sub": "video-by.ominds.online",
+        "sub": "vs02.funcodeai.by",
         "room": room_name,
         "exp": expiry,
         "moderator": True
