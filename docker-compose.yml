@@ -508,8 +508,8 @@ services:
         - "5349:5349/udp"
         volumes:
         - ./coturn.conf:/etc/coturn/turnserver.conf
-        - ${CONFIG}/web/keys/cert.crt:/etc/coturn/videotest.ominds.ru.crt
-        - ${CONFIG}/web/keys/cert.key:/etc/coturn/videotest.ominds.ru.key
+        - ${CONFIG}/web/keys/cert.crt:/etc/coturn/vs01.funcode.kz.crt
+        - ${CONFIG}/web/keys/cert.key:/etc/coturn/vs01.funcode.kz.key
         depends_on:
             - prosody
         networks:
