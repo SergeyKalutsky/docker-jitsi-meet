@@ -15,10 +15,11 @@ services:
         labels:
             service: "jitsi-web"
             traefik.enable: "true"
-            traefik.http.routers.main.rule: "Host(`video.ominds.online`)"
+            traefik.http.routers.main.rule: "Host(`${DOMAIN}`)"
             traefik.http.routers.main.entrypoints: "websecure"
             traefik.http.routers.main.tls.certresolver: "myresolver"
         environment:
+            - DOMAIN
             - AMPLITUDE_ID
             - ANALYTICS_SCRIPT_URLS
             - ANALYTICS_WHITELISTED_EVENTS
@@ -501,6 +502,7 @@ services:
     coturn:
         image: instrumentisto/coturn
         restart: always
+        command: ["--realm=${DOMAIN}"]
         ports:
         - "3478:3478"
         - "3478:3478/udp"
@@ -508,8 +510,8 @@ services:
         - "5349:5349/udp"
         volumes:
         - ./coturn.conf:/etc/coturn/turnserver.conf
-        - ${CONFIG}/web/keys/cert.crt:/etc/coturn/video-test.ominds.online.crt
-        - ${CONFIG}/web/keys/cert.key:/etc/coturn/video-test.ominds.online.key
+        - ${CONFIG}/web/keys/cert.crt:/etc/coturn/cert.crt
+        - ${CONFIG}/web/keys/cert.key:/etc/coturn/cert.key
         depends_on:
             - prosody
         networks:
