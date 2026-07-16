@@ -10,6 +10,21 @@ This repository contains the necessary tools to run a Jitsi Meet stack on [Docke
 
 All our images are published on [DockerHub](https://hub.docker.com/u/jitsi/).
 
+## Manual Certbot renewal
+
+For deployments where Jitsi's built-in ACME client is disabled and Certbot
+uses standalone HTTP validation, set `DOMAIN` and `ENABLE_LETSENCRYPT=0` in
+`.env`, start the stack, and install the renewal hooks:
+
+```bash
+sudo bash ./install-certbot-renewal-hooks.sh --dry-run
+```
+
+The installer discovers the host directory mounted at `/config`, stops only
+the web container for validation, copies renewed certificates into the Jitsi
+volume, and starts the web container again. The system `certbot.timer` is
+enabled automatically, so a separate cron entry is not required.
+
 ## Supported architectures
 
 Starting with `stable-7439` the published images are available for `amd64` and `arm64`.
