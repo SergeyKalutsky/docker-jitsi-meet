@@ -20,10 +20,12 @@ uses standalone HTTP validation, set `DOMAIN` and `ENABLE_LETSENCRYPT=0` in
 sudo bash ./install-certbot-renewal-hooks.sh --dry-run
 ```
 
-The installer discovers the host directory mounted at `/config`, stops only
-the web container for validation, copies renewed certificates into the Jitsi
-volume, and starts the web container again. The system `certbot.timer` is
-enabled automatically, so a separate cron entry is not required.
+The installer discovers the host directory mounted at `/config`, immediately
+copies the current certificate and reloads Nginx, then installs renewal hooks.
+For future validation it stops only the web container, copies renewed
+certificates into the Jitsi volume, and starts the web container again. The
+system `certbot.timer` is enabled automatically, so a separate cron entry is
+not required.
 
 ## Supported architectures
 

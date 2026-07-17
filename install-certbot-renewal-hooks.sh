@@ -87,6 +87,14 @@ WEB_CONFIG_DIR="$("$DOCKER_BIN" inspect --format '{{range .Mounts}}{{if eq .Dest
     exit 1
 }
 
+CERT_SOURCE="/etc/letsencrypt/live/$DOMAIN"
+CERT_DESTINATION="$WEB_CONFIG_DIR/acme-certs/$DOMAIN"
+[[ -r "$CERT_SOURCE/fullchain.pem" && -r "$CERT_SOURCE/privkey.pem" ]] || {
+    echo "No Certbot certificate found for $DOMAIN." >&2
+    echo "Create it with: certbot certonly --standalone -d $DOMAIN" >&2
+    exit 1
+}
+
 install -d -m 755 "$HOOK_ROOT/pre" "$HOOK_ROOT/deploy" "$HOOK_ROOT/post"
 
 cat > "$HOOK_ROOT/pre/01-stop-jitsi.sh" <<EOF
@@ -121,12 +129,21 @@ chmod 755 \
     "$HOOK_ROOT/deploy/10-jitsi-cert.sh" \
     "$HOOK_ROOT/post/01-start-jitsi.sh"
 
+# Synchronize immediately. A deploy hook only runs after an actual renewal, so
+# without this step Jitsi may keep serving an older copied certificate when
+# Certbot decides the current certificate is not due yet.
+install -d -m 755 "$CERT_DESTINATION"
+install -m 644 "$CERT_SOURCE/fullchain.pem" "$CERT_DESTINATION/fullchain.pem"
+install -m 600 "$CERT_SOURCE/privkey.pem" "$CERT_DESTINATION/privkey.pem"
+compose exec web nginx -s reload
+
 if command -v systemctl >/dev/null && systemctl list-unit-files certbot.timer --no-legend | grep -q '^certbot.timer'; then
     systemctl enable --now certbot.timer
 fi
 
 echo "Installed Certbot hooks for $DOMAIN"
 echo "Web config mount: $WEB_CONFIG_DIR"
+echo "Synchronized the current certificate and reloaded Nginx"
 
 case "$ACTION" in
     dry-run)
